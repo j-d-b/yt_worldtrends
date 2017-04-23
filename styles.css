@@ -1,0 +1,192 @@
+
+#vid_loc {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+#vid_desc {
+    word-wrap: break-word;
+    font-size: 11px;
+}
+
+#vid_author {
+    font-weight: 600;
+    padding-bottom: 8px;
+}
+
+#vid_date {
+    text-align: right;
+    font-size: 12px;
+}
+
+#vid_viewers {
+    font-weight: 600;
+}
+
+#vidtitle {
+    text-align: center;
+}
+
+#top_bar {
+    letter-spacing: 1px;
+    font-size: 26px;
+    font-family: "futura";
+    background-color: #C51109;
+    color: white;
+    font-weight: 500;
+    padding: 8px 25px 8px 25px;
+    margin-bottom: 16px;
+    box-shadow: 0px 1px 30px 5px #cccccc;
+}
+
+#top_buttons {
+    text-align: right;
+}
+
+#top_bar a:hover {
+    text-decoration: none;
+}
+
+#settings {
+    color: white;
+    text-shadow: none;
+}
+
+#settings a:visited, a:active, a:link {
+    text-decoration: none;
+}
+
+#settings:hover {
+    color: #e1e1e1;
+    text-shadow: none;
+}
+
+
+#map-div {
+    padding: 15px 0 20px 30px;
+}
+
+
+#info-div {
+    padding: 40px 30px 20px 20px;
+}
+
+#prev_vid {
+    border-radius: 3px 3px 0 0 !important;
+    overflow: hidden;
+}
+
+#info_footer {
+    background-color: #969696;
+    border-top: 0;
+    color: #ffffff;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+#counter_col {
+    background-color: #E62117;
+    font-weight: bold;
+    text-align: center;
+    line-height: 36px;
+    font-size: 18px;
+    height: 36px;
+}
+
+#left_button {
+    border-bottom-left-radius: 3px;
+}
+
+#right_button {
+    border-bottom-right-radius: 3px;
+}
+
+#logos {
+    text-align: right;
+    font-size: 18px;
+    letter-spacing: 4px;
+    padding-right: 40px;
+}
+
+#logos a:hover{
+    text-decoration: none;
+    color: #555555;
+}
+
+#logos a:visited {
+    text-decoration: none;
+}
+
+#logos a {
+    color: black;
+}
+
+.expand-collapse {
+    vertical-align: middle;
+    font-size: 16px;
+    padding: 0 5px;
+    border-radius: 2px;
+    color: #C51109;
+}
+
+.expand-collapse:hover {
+    color: #E62117;
+}
+
+.hidden {
+    visibility: hidden;
+    overflow: hidden;
+    width: 0px;
+    height: 0px;
+}
+
+.panel_button {
+    padding: 8px;
+    text-align: center;
+    cursor: pointer;
+    letter-spacing: 1px;
+    font-weight: 480;
+    text-decoration: none;
+}
+.panel_button:hover {
+    background-color: #787878;
+}
+
+.panel {
+    border: 0;
+}
+
+.popover-content {
+    color: black;
+}
+
+.main-element {
+    box-shadow: 1px 1px 50px #cccccc;
+}
+
+.footer {
+    font-style: italic;
+    font-size: 9px;
+    padding-top: 13px;
+    position: absolute;
+    line-height: 4px;
+    text-align: center;
+    bottom: 0; /* sticks it to the bottom */
+    width: 100%;
+    height: 45px;
+    background-color: white;
+}
+
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+body {
+    background-color: #f1f1f1;
+}

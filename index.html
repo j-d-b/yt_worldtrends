@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+    <head>
+        <title>GlobeStream</title>
+        <link rel="icon" href="graphics/favicon.png"/>
+        <meta charset="utf-8"></meta>
+        <meta name="keywords" content="globestream,youtube,live,video,visualization"></meta>
+        <meta name="description" content="YouTube Live Video Geomapping"></meta>
+        <meta name="author" content="Jacob Brady"></meta>
+
+        <!-- bootstrap stuff -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <!-- jvectormap stuff -->
+        <script src="jquery-jvectormap-2.0.3/jquery-jvectormap-2.0.3.min.js"></script>
+        <script src="jquery-jvectormap-2.0.3/jquery-jvectormap-world-mill.js"></script>
+        <link rel="stylesheet" href="jquery-jvectormap-2.0.3/jquery-jvectormap-2.0.3.css" type="text/css" media="screen"/>
+
+
+        <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="styles.css">
+
+
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row" id="top_bar">
+                <div class="col-md-11">
+                    <i class="fa fa-youtube-square" aria-hidden="true"></i>
+                    YT WorldTrends
+                </div>
+                <div class="col-md-1" id="top_buttons">
+                    <a href="#" id="settings" class="fa fa-cog" aria-hidden="true" data-toggle="popover" data-trigger="click" data-placement="bottom" data-content="Settings"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <div id="map-div">
+                        <div id="world-map"></div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div id="info-div">
+                        <div class="panel panel-primary main-element">
+                            <div id="prev_vid"></div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div id="vid_author" class="col-sm-8"></div>
+                                    <div id="vid_date" class="col-sm-4"></div>
+                                </div>
+                                <div id="vid_desc"></div>
+                                <div id="vid_viewers">
+                                    <p>Welcome to YTWT, a YouTube-sourced trending video explorer</p>
+                                    <p>Select a region from the map to view current popular videos</p>
+                                </div>
+                            </div>
+                            <div id="info_footer" class="panel-footer hidden unselectable">
+                                <div class="row">
+                                    <div class='col-sm-5 panel_button' id="left_button">Overlay View</div>
+                                    <div class="col-sm-2" id="counter_col"></div>
+                                    <div class='col-sm-5 panel_button' id="right_button">Next Video</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class=col-md-3></div>
+                    <div class="col-md-6">
+                        <p class="text-muted">Updated Spring 2017</p>
+                        <p class="text-muted">J. Brady</p>
+                    </div>
+                    <div class="col-md-3" id="logos">
+                        <a href=# class="fa fa-github-alt" id="github_link" aria-hidden="true"></a>
+                        <a href="http://www.cs.middlebury.edu/~jbrady/" id="me_link" class="fa fa-user-circle" aria-hidden="true" target="_blank"></a>
+                        <a href="mailto:jbrady@middlebury.edu" class="fa fa-envelope-o" id="mail_link" aria-hidden="true"></a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+
+        <!-- Video Modal Popup -->
+        <div id="video-modal" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title" id="vidtitle"></h4>
+                    </div>
+                    <div class="modal-body" style="text-align:center;">
+                        <div class="embed-responsive embed-responsive-4by3" id="video">
+                            <iframe class="embed-responsive-item" id="ytplayer_modal"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <script src="map_stuff.js"></script>
+        <script src="https://www.youtube.com/iframe_api"></script>
+
+    </body>
+</html>
