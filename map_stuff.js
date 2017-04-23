@@ -32,9 +32,9 @@ $(document).ready(function(){
             }
     });
 
-    $('#me_link').tooltip({title: "about me", delay: {show: 400, hide: 0}});
-    $('#github_link').tooltip({title: "github", delay: {show: 400, hide: 0}});
-    $('#mail_link').tooltip({title: "contact", delay: {show: 400, hide: 0}});
+    $('#me_link').tooltip({title: "about me", trigger: 'hover', delay: {show: 400, hide: 0}});
+    $('#github_link').tooltip({title: "github", trigger: 'hover', delay: {show: 400, hide: 0}});
+    $('#mail_link').tooltip({title: "contact", trigger: 'hover', delay: {show: 400, hide: 0}});
 
     $(window).resize(function(){ // sizes the map in the bootstrap container
         var height = $(window).height(),
