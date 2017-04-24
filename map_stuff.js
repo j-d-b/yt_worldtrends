@@ -8,8 +8,6 @@ var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 // GLOBALS
-const overlay_btn = "<button id='modal-open' type='button' class='btn btn-primary btn-md' data-toggle='modal' data-target='#video-modal'>Overlay View</button>"
-const next_btn = "<button id='next_vid' type='button' class='btn btn-primary btn-md'>Next Video</button>"
 const api_key = "AIzaSyDmMfpYRWY9v0OLpJsN-HXlzdpHUdaoOXU";
 const yt_lightred = "#E62117"
 const yt_darkred = "#C51109"
@@ -19,12 +17,25 @@ var prev_player, full_player; // youtube player objects
 var curr_vidlist = []; // saves the first five vid objs for the selected country
 var vidlist_index = 0; // which video of the five is currently being shown
 var curr_region; // which country is currently selected
+var expanded = false; // is vid description expanded
 
 
 // JQUERY!
 $(document).ready(function(){
     // BOOTSTRAP FUNCTIONS
+    $('#settings').popover({
+      html : true,
+      content: function() {
+        return $('#popover_content').html();
+      }
+    });
+
+    $('[data-toggle="popover"]').popover({
+        container: 'body'
+    });
+
     $('[data-toggle="popover"]').popover();
+
     $('body').on('click', function (e) {  // CP'D. CLOSE POPOVER ON CLICK
         if ($(e.target).data('toggle') !== 'popover'
             && $(e.target).parents('.popover.in').length === 0) {
@@ -81,6 +92,7 @@ $(document).ready(function(){
             selectedHover: {
             }
         },
+        zoomMax: 5,
         regionsSelectable: true,
         regionsSelectableOne: true, //add this line here
         zoomButtons : false,
@@ -127,25 +139,27 @@ function fill_info(){
     if (curr_vid.snippet.description.length < desc_max_char){
         document.getElementById("vid_desc").innerHTML = curr_vid.snippet.description;
     }
-    else {
-        document.getElementById("vid_desc").innerHTML = curr_vid.snippet.description.slice(0, desc_max_char) + " <a href='#' class='fa fa-ellipsis-h expand-collapse' id='expand' aria-hidden='true'></a>";
-        $('#expand').tooltip({title: "expand", trigger: 'hover'});
-        $('#expand').click(function(){
-            $('#vid_desc').html(curr_vid.snippet.description + " <a href='#' class='fa fa-ellipsis-v expand-collapse' id='collapse' aria-hidden='true'></a>");
-            $('#collapse').tooltip({title: "collapse", trigger: 'hover'});
-            $('#collapse').click(function(){
-                $('#vid_desc').html(curr_vid.snippet.description.slice(0, desc_max_char) + " <a href='#' class='fa fa-ellipsis-h expand-collapse' id='expand' aria-hidden='true'></a>");
-            });
+    else { // over the char limit
+        $("#vid_desc").html(curr_vid.snippet.description.slice(0, desc_max_char) + " <a href='#' class='fa fa-ellipsis-h expand-collapse' aria-hidden='true'></a>");
+        $('.expand-collapse').click(function(){
+            if(!expanded){
+                $('#vid_desc').html(curr_vid.snippet.description + " <a href='#' class='fa fa-ellipsis-v expand-collapse' id='collapse' aria-hidden='true'></a>");
+            }
+            else {
+                $('#vid_desc').html(curr_vid.snippet.description.slice(0, desc_max_char) + " <a href='#' class='fa fa-ellipsis-h expand-collapse' aria-hidden='true'></a>");
+            }
         });
     }
 
+    $("#prev_title").html(curr_vid.snippet.title);
     $("#vid_viewers").html("");
-    document.getElementById("vid_date").innerHTML = curr_vid.snippet.publishedAt.slice(0, 10);
+    $("#vid_date").html(curr_vid.snippet.publishedAt.slice(0, 10));
     $("#counter_col").html("# " + (vidlist_index + 1).toString());
-    document.getElementById("vid_author").innerHTML = curr_vid.snippet.channelTitle;
-    document.getElementById("prev_vid").innerHTML = iframe_gen(curr_vid.id, "ytplayer");
-    document.getElementById("vidtitle").innerHTML = map.getRegionName(curr_region);
-    document.getElementById("video").innerHTML = iframe_gen(curr_vid.id, "ytplayer_modal");
+    $("#vid_author").html("by " + curr_vid.snippet.channelTitle);
+    $("#region").html(map.getRegionName(curr_region));
+    $("#prev_vid").html(iframe_gen(curr_vid.id, "ytplayer"));
+    $("#video").html(iframe_gen(curr_vid.id, "ytplayer_modal"));
+    
     init_player("ytplayer", "ytplayer_modal");
 }
 
@@ -153,8 +167,7 @@ function fill_info(){
 // removes all content from the righthand info box
 function clear_info(){
     document.getElementById("vid_desc").innerHTML = "";
-    //document.getElementById("vid_loc").innerHTML = "No Point Selected";
-    document.getElementById("vidtitle").innerHTML = "";
+    document.getElementById("region").innerHTML = "";
     document.getElementById("video").innerHTML = "";
     document.getElementById("prev_vid").innerHTML = "";
     document.getElementById("vid_viewers").innerHTML = "";
@@ -206,7 +219,9 @@ function ready_go(event){
 
 
 function switch_players(switch_from, switch_to){
-    var timestamp = switch_from.getCurrentTime();
-    switch_from.stopVideo();
-    switch_to.seekTo(timestamp);
+    if(switch_from.getPlayerState() == 1){ // is playing
+        var timestamp = switch_from.getCurrentTime();
+        switch_from.stopVideo();
+        switch_to.seekTo(timestamp);
+    }
 }

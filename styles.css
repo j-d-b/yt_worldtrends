@@ -11,8 +11,14 @@
 }
 
 #vid_author {
+    font-size: 12px;
+    text-indent: 25px;
+    font-weight: 480;
+    padding-bottom: 9px;
+}
+
+#prev_title {
     font-weight: 600;
-    padding-bottom: 8px;
 }
 
 #vid_date {
@@ -22,10 +28,6 @@
 
 #vid_viewers {
     font-weight: 600;
-}
-
-#vidtitle {
-    text-align: center;
 }
 
 #top_bar {
@@ -122,6 +124,45 @@
     color: black;
 }
 
+#region {
+    text-align: center;
+    color: #d6d6d6;
+    font-size: 20px;
+    font-weight: 600;
+    padding-top: 35px;
+    text-shadow: 0 1px 2px #545454;
+}
+
+#popover_content {
+    display: none;
+    width: 500px;
+}
+
+#wrap {
+  min-height: 100%;
+  height: auto;
+  /* Negative indent footer by its height */
+  margin: 0 auto -45px;
+  /* Pad bottom by footer height */
+  padding: 0 0 45px;
+}
+
+.popover{
+    width: 500px;
+}
+
+.modal-body {
+    padding: 0px;
+}
+
+.modal-header {
+    padding: 0px;
+}
+
+.modal-dialog {
+  padding-top: 5%;
+}
+
 .expand-collapse {
     vertical-align: middle;
     font-size: 16px;
@@ -132,6 +173,7 @@
 
 .expand-collapse:hover {
     color: #E62117;
+    background-color: #d1d1d1;
 }
 
 .hidden {
@@ -169,10 +211,8 @@
     font-style: italic;
     font-size: 9px;
     padding-top: 13px;
-    position: absolute;
     line-height: 4px;
     text-align: center;
-    bottom: 0; /* sticks it to the bottom */
     width: 100%;
     height: 45px;
     background-color: white;
@@ -189,4 +229,8 @@
 
 body {
     background-color: #f1f1f1;
+}
+
+html, body {
+  height: 100%; /* for sticky footer */
 }

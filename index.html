@@ -1,11 +1,11 @@
 <!doctype html>
 <html>
     <head>
-        <title>GlobeStream</title>
+        <title>YTWT</title>
         <link rel="icon" href="graphics/favicon.png"/>
         <meta charset="utf-8"></meta>
-        <meta name="keywords" content="globestream,youtube,live,video,visualization"></meta>
-        <meta name="description" content="YouTube Live Video Geomapping"></meta>
+        <meta name="keywords" content="ytwt,worldtrends,youtube,world,video,trend,explorer"></meta>
+        <meta name="description" content="YouTube World Trend Explorer"></meta>
         <meta name="author" content="Jacob Brady"></meta>
 
         <!-- bootstrap stuff -->
@@ -19,52 +19,56 @@
         <script src="jquery-jvectormap-2.0.3/jquery-jvectormap-world-mill.js"></script>
         <link rel="stylesheet" href="jquery-jvectormap-2.0.3/jquery-jvectormap-2.0.3.css" type="text/css" media="screen"/>
 
-
         <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="styles.css">
 
+        <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+        <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
     </head>
     <body>
-        <div class="container-fluid">
-            <div class="row" id="top_bar">
-                <div class="col-md-11">
-                    <i class="fa fa-youtube-square" aria-hidden="true"></i>
-                    YT WorldTrends
-                </div>
-                <div class="col-md-1" id="top_buttons">
-                    <a href="#" id="settings" class="fa fa-cog" aria-hidden="true" data-toggle="popover" data-trigger="click" data-placement="bottom" data-content="Settings"></a>
-                </div>
-            </div>
-        </div>
-
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-8">
-                    <div id="map-div">
-                        <div id="world-map"></div>
+        <div id="wrap">
+            <div class="container-fluid">
+                <div class="row" id="top_bar">
+                    <div class="col-md-6">
+                        <i class="fa fa-youtube-square" aria-hidden="true"></i>
+                        YT WorldTrends
+                    </div>
+                    <div class="col-md-6" id="top_buttons">
+                        <a href="#" id="settings" class="fa fa-cog" aria-hidden="true" data-toggle="popover" data-trigger="click" data-placement="bottom" data-content=""></a>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div id="info-div">
-                        <div class="panel panel-primary main-element">
-                            <div id="prev_vid"></div>
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div id="vid_author" class="col-sm-8"></div>
-                                    <div id="vid_date" class="col-sm-4"></div>
+            </div>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div id="map-div">
+                            <div id="world-map"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div id="info-div">
+                            <div class="panel panel-primary main-element">
+                                <div id="prev_vid"></div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div id="prev_title" class="col-sm-8"></div>
+                                        <div id="vid_date" class="col-sm-4"></div>
+                                    </div>
+                                    <div id="vid_author"></div>
+                                    <div id="vid_desc"></div>
+                                    <div id="vid_viewers">
+                                        <p>Welcome to YTWT, a YouTube-sourced trending video explorer</p>
+                                        <p>Select a region from the map to view current popular videos</p>
+                                    </div>
                                 </div>
-                                <div id="vid_desc"></div>
-                                <div id="vid_viewers">
-                                    <p>Welcome to YTWT, a YouTube-sourced trending video explorer</p>
-                                    <p>Select a region from the map to view current popular videos</p>
-                                </div>
-                            </div>
-                            <div id="info_footer" class="panel-footer hidden unselectable">
-                                <div class="row">
-                                    <div class='col-sm-5 panel_button' id="left_button">Overlay View</div>
-                                    <div class="col-sm-2" id="counter_col"></div>
-                                    <div class='col-sm-5 panel_button' id="right_button">Next Video</div>
+                                <div id="info_footer" class="panel-footer hidden unselectable">
+                                    <div class="row">
+                                        <div class='col-sm-5 panel_button' id="left_button">Overlay View</div>
+                                        <div class="col-sm-2" id="counter_col"></div>
+                                        <div class='col-sm-5 panel_button' id="right_button">Next Video</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -73,7 +77,7 @@
             </div>
         </div>
 
-        <footer class="footer">
+        <div class="footer">
             <div class="container-fluid">
                 <div class="row">
                     <div class=col-md-3></div>
@@ -88,24 +92,26 @@
                     </div>
                 </div>
             </div>
-        </footer>
+        </div>
 
 
         <!-- Video Modal Popup -->
         <div id="video-modal" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title" id="vidtitle"></h4>
-                    </div>
                     <div class="modal-body" style="text-align:center;">
-                        <div class="embed-responsive embed-responsive-4by3" id="video">
+                        <div class="embed-responsive embed-responsive-16by9" id="video">
                             <iframe class="embed-responsive-item" id="ytplayer_modal"></iframe>
                         </div>
                     </div>
                 </div>
+                <div id="region"></div>
             </div>
+        </div>
+
+        <!-- Settings Popover Content -->
+        <div id="popover_content">
+            <p>Play Video on Load<input type='checkbox' checked data-toggle='toggle'></p>
         </div>
 
 
