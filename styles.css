@@ -138,7 +138,7 @@
     width: 500px;
 }
 
-#wrap {
+#wrap { /* from boostrap sticky footer example */
   min-height: 100%;
   height: auto;
   /* Negative indent footer by its height */
@@ -169,6 +169,7 @@
     padding: 0 5px;
     border-radius: 2px;
     color: #C51109;
+    cursor: pointer;
 }
 
 .expand-collapse:hover {

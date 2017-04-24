@@ -8,10 +8,11 @@ var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 // GLOBALS
-const api_key = "AIzaSyDmMfpYRWY9v0OLpJsN-HXlzdpHUdaoOXU";
-const yt_lightred = "#E62117"
-const yt_darkred = "#C51109"
-const desc_max_char = 300;
+const API_KEY = "AIzaSyDmMfpYRWY9v0OLpJsN-HXlzdpHUdaoOXU";
+const YT_LIGHTRED = "#E62117"
+const YT_DARKRED = "#C51109"
+const MAX_CHAR = 300;
+const VALID_REGIONS = ["US","JP","RU", "AU", "NZ", "CA", "MX", "IT"];
 
 var prev_player, full_player; // youtube player objects
 var curr_vidlist = []; // saves the first five vid objs for the selected country
@@ -30,11 +31,24 @@ $(document).ready(function(){
       }
     });
 
+    $('.expand-collapse').click(function(){
+        if(!expanded){
+            $('#vid_desc').html(curr_vidlist[vidlist_index].snippet.description);
+            expanded = true;
+            $(".expand-collapse").removeClass("fa-ellipsis-h");
+            $(".expand-collapse").addClass("fa-ellipsis-v");
+        }
+        else {$
+            $('#vid_desc').html(curr_vidlist[vidlist_index].snippet.description.slice(0, MAX_CHAR));
+            expanded = false;
+            $(".expand-collapse").removeClass("fa-ellipsis-v");
+            $(".expand-collapse").addClass("fa-ellipsis-h");
+        }
+    });
+
     $('[data-toggle="popover"]').popover({
         container: 'body'
     });
-
-    $('[data-toggle="popover"]').popover();
 
     $('body').on('click', function (e) {  // CP'D. CLOSE POPOVER ON CLICK
         if ($(e.target).data('toggle') !== 'popover'
@@ -73,21 +87,26 @@ $(document).ready(function(){
     $('#world-map').vectorMap({
         map: 'world_mill',
         backgroundColor: '#f1f1f1',
+        series: {
+            regions: [{
+                attribute: 'fill'
+            }]
+        },
         regionStyle: {
             initial: {
-                fill: '#969696',
+                fill: '#c1c1c1',
                 "fill-opacity": 1,
                 stroke: 'none',
                 "stroke-width": 0,
                 "stroke-opacity": 1
             },
             hover: {
-                fill: yt_lightred,
+                fill: YT_LIGHTRED,
                 "fill-opacity": 1,
                 cursor: 'pointer'
             },
             selected: {
-                fill: yt_lightred
+                fill: YT_LIGHTRED
             },
             selectedHover: {
             }
@@ -97,18 +116,47 @@ $(document).ready(function(){
         regionsSelectableOne: true, //add this line here
         zoomButtons : false,
         onRegionClick: function (event, region_code) {
-            curr_region = region_code;
-            req_vid(region_code);
+            var valid = $.inArray(region_code, VALID_REGIONS);
+            if (valid !== -1) {
+                curr_region = region_code;
+                req_vid(region_code);
+            }
+            else {
+                event.preventDefault();
+            }
+        },
+        onRegionOver: function(e, code) {
+            var valid = $.inArray(code, VALID_REGIONS);
+            if (valid == -1) {
+                e.preventDefault();
+            }
+        },
+        onRegionTipShow: function(e, el, code){
+            var valid = $.inArray(code, VALID_REGIONS);
+            if (valid == -1) {
+                e.preventDefault();
+            }
         }
     });
 
+    var map = $('#world-map').vectorMap('get', 'mapObject');
+    map.series.regions[0].setValues(color_regions(VALID_REGIONS, "#969696"));
 });
+
+
+function color_regions(regions, color_code){
+    var colors = {};
+    for (var i = 0; i < regions.length; i++) {
+        colors[regions[i]] = color_code;
+    }
+    return colors;
+}
 
 
 // given the region, gives a list of most popular in that region and returns
 // a list of the first page of video objects from the JSON request
 function req_vid(region_code) {
-    var url = "https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&regionCode=" + region_code + "&key=" + api_key;
+    var url = "https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&regionCode=" + region_code + "&key=" + API_KEY;
 
     $.get(url, function(data) {
         update_vidobjs(data);
@@ -136,19 +184,12 @@ function fill_info(){
     var curr_vid = curr_vidlist[vidlist_index];
     var map = $('#world-map').vectorMap('get', 'mapObject');
 
-    if (curr_vid.snippet.description.length < desc_max_char){
+    if (curr_vid.snippet.description.length < MAX_CHAR){
         document.getElementById("vid_desc").innerHTML = curr_vid.snippet.description;
     }
     else { // over the char limit
-        $("#vid_desc").html(curr_vid.snippet.description.slice(0, desc_max_char) + " <a href='#' class='fa fa-ellipsis-h expand-collapse' aria-hidden='true'></a>");
-        $('.expand-collapse').click(function(){
-            if(!expanded){
-                $('#vid_desc').html(curr_vid.snippet.description + " <a href='#' class='fa fa-ellipsis-v expand-collapse' id='collapse' aria-hidden='true'></a>");
-            }
-            else {
-                $('#vid_desc').html(curr_vid.snippet.description.slice(0, desc_max_char) + " <a href='#' class='fa fa-ellipsis-h expand-collapse' aria-hidden='true'></a>");
-            }
-        });
+        $("#vid_desc").html(curr_vid.snippet.description.slice(0, MAX_CHAR));
+        $(".expand-collapse").removeClass("hidden");
     }
 
     $("#prev_title").html(curr_vid.snippet.title);
@@ -159,7 +200,7 @@ function fill_info(){
     $("#region").html(map.getRegionName(curr_region));
     $("#prev_vid").html(iframe_gen(curr_vid.id, "ytplayer"));
     $("#video").html(iframe_gen(curr_vid.id, "ytplayer_modal"));
-    
+
     init_player("ytplayer", "ytplayer_modal");
 }
 
@@ -191,7 +232,7 @@ function get_info(region){
 
 // NOT YET WORKING; SHOULD GET ADDITIONAL STATS
 function req_stats(vid_id) {
-    var url = "https://www.googleapis.com/youtube/v3/videos?part=statistics&id=" + vid_id + "&key=" + api_key;
+    var url = "https://www.googleapis.com/youtube/v3/videos?part=statistics&id=" + vid_id + "&key=" + API_KEY;
     var req_js_obj;
 
     $.get(url, function(data) {
