@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>YTWT</title>
-        <link rel="icon" href="graphics/favicon.png"/>
+        <link rel="icon" href="favicon.png"/>
         <meta charset="utf-8"></meta>
         <meta name="keywords" content="ytwt,worldtrends,youtube,world,video,trend,explorer"></meta>
         <meta name="description" content="YouTube World Trend Explorer"></meta>
@@ -15,27 +15,33 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
         <!-- jvectormap stuff -->
-        <script src="jquery-jvectormap-2.0.3/jquery-jvectormap-2.0.3.min.js"></script>
-        <script src="jquery-jvectormap-2.0.3/jquery-jvectormap-world-mill.js"></script>
-        <link rel="stylesheet" href="jquery-jvectormap-2.0.3/jquery-jvectormap-2.0.3.css" type="text/css" media="screen"/>
+        <script src="utilities/jquery-jvectormap-2.0.3.min.js"></script>
+        <script src="utilities/jquery-jvectormap-world-mill.js"></script>
+        <link rel="stylesheet" href="utilities/jquery-jvectormap-2.0.3.css" type="text/css" media="screen"/>
 
         <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="styles.css">
+
+        <link rel="stylesheet" type="text/css" href="main.css">
 
         <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
         <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+        <script src="utilities/linkify.min.js"></script>
+        <script src="utilities/linkify-jquery.min.js"></script>
+
+
 
     </head>
     <body>
         <div id="wrap">
             <div class="container-fluid">
                 <div class="row" id="top_bar">
-                    <div class="col-md-6">
+                    <div class="col-md-6" id="title">
                         <i class="fa fa-youtube-square" aria-hidden="true"></i>
-                        YT WorldTrends
+                        worldtrends
                     </div>
                     <div class="col-md-6" id="top_buttons">
-                        <a href="#" id="settings" class="fa fa-cog" aria-hidden="true" data-toggle="popover" data-trigger="click" data-placement="bottom" data-content=""></a>
+                        <a href="#" id="settings" class="fa fa-question-circle" aria-hidden="true" data-toggle="popover" data-trigger="click" data-placement="bottom" data-content=""></a>
                     </div>
                 </div>
             </div>
@@ -58,7 +64,7 @@
                                     </div>
                                     <div id="vid_author"></div>
                                     <div id="vid_desc"></div>
-                                    <div class='fa fa-ellipsis-h expand-collapse hidden' aria-hidden='true'></div>
+                                    <div class='fa fa-caret-down expand-collapse hidden' aria-hidden='true'></div>
                                     <div id="vid_viewers">
                                         <p>Welcome to YTWT, a YouTube-sourced trending video explorer</p>
                                         <p>Select a region from the map to view current popular videos</p>
@@ -112,12 +118,14 @@
 
         <!-- Settings Popover Content -->
         <div id="popover_content">
+            <h4>Why isn't every country selectable?</h4>
+            <p>Videos are only avaible for countries in which YouTube has launched a monetized site. Other regions may have access to YouTube, but do not have region specific content.</p>
+            <br></br>
+            <h4>Settings</h4>
             <p>Play Video on Load<input type='checkbox' checked data-toggle='toggle'></p>
         </div>
 
-
-
-        <script src="map_stuff.js"></script>
+        <script src="main.js"></script>
         <script src="https://www.youtube.com/iframe_api"></script>
 
     </body>
