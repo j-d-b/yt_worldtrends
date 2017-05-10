@@ -30,7 +30,7 @@ var max_char;
 
 // JQUERY!
 $(document).ready(function(){
-    max_char = $('#info-win').width();
+    max_char = $('#info-div').width();
 
     $('#video_load').bootstrapToggle({
         on: 'On',
@@ -168,9 +168,8 @@ $(document).ready(function(){
 
         size_map();
 
-        max_char = $('#info-win').width();
-
-        var inf_wid = $('#info-div').width()
+        var inf_wid = $('#info-div').width();
+        max_char = inf_wid;
 
         if(inf_wid < MIN_INF_DIV_WID){ // 264
             $('#counter_col').css("font-size", inf_wid / 16);
