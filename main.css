@@ -1,6 +1,6 @@
 @font-face {
-    font-family: "title"; /*a name to be used later*/
-    src: url("axis.ttf"); /*URL to font*/
+    font-family: "title";
+    src: url("axis.ttf"); 
 }
 
 #load_box {
