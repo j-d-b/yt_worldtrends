@@ -30,7 +30,7 @@ var max_char;
 
 // JQUERY!
 $(document).ready(function(){
-    max_char = $(window).height() / 3;
+    max_char = $('#info-win').width();
 
     $('#video_load').bootstrapToggle({
         on: 'On',
@@ -168,7 +168,7 @@ $(document).ready(function(){
 
         size_map();
 
-        max_char = $(window).height() / 3;
+        max_char = $('#info-win').width();
 
         var inf_wid = $('#info-div').width()
 
