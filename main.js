@@ -1,4 +1,4 @@
-max_char// Jacob Brady
+// Jacob Brady
 // April 2017
 
 // YOUTUBE PLAYER API SETUP
