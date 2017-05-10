@@ -36,12 +36,12 @@
         <div id="wrap">
             <div class="container-fluid">
                 <div class="row" id="top_bar">
-                    <div class="col-md-6" id="title">
+                    <div class="col-xs-10" id="title">
                         <i class="fa fa-youtube-square" aria-hidden="true"></i>
                         worldtrends
                     </div>
-                    <div class="col-md-6" id="top_buttons">
-                        <a href="#" id="settings" class="fa fa-question-circle" aria-hidden="true" data-toggle="popover" data-trigger="click" data-placement="bottom" data-content=""></a>
+                    <div class="col-xs-2" id="top_buttons">
+                        <a href="#" id="settings" class="fa fa-question-circle" aria-hidden="true"></a>
                     </div>
                 </div>
             </div>
@@ -59,8 +59,8 @@
                                 <div id="prev_vid"></div>
                                 <div class="panel-body">
                                     <div class="row">
-                                        <div id="prev_title" class="col-sm-9"></div>
-                                        <div id="vid_date" class="col-sm-3"></div>
+                                        <div id="prev_title" class="col-xs-9"></div>
+                                        <div id="vid_date" class="col-xs-3"></div>
                                     </div>
                                     <div id="vid_author"></div>
                                     <div id="vid_desc"></div>
@@ -72,9 +72,9 @@
                                 </div>
                                 <div id="info_footer" class="panel-footer hidden unselectable">
                                     <div class="row">
-                                        <div class='col-sm-5 panel_button' id="left_button">Overlay View</div>
-                                        <div class="col-sm-2" id="counter_col"></div>
-                                        <div class='col-sm-5 panel_button' id="right_button">Next Video</div>
+                                        <div class='col-xs-5 panel_button inf-ftr-el' id="left_button">Overlay View</div>
+                                        <div class="col-xs-2 inf-ftr-el" id="counter_col"></div>
+                                        <div class='col-xs-5 panel_button inf-ftr-el' id="right_button">Next Video</div>
                                     </div>
                                 </div>
                             </div>
@@ -84,15 +84,16 @@
             </div>
         </div>
 
+
         <div class="footer">
             <div class="container-fluid">
                 <div class="row">
-                    <div class=col-md-3></div>
-                    <div class="col-md-6">
+                    <div class="col-sm-4 col-xs-0"></div>
+                    <div class="col-sm-4 col-xs-6" id="authors">
                         <p class="text-muted">Updated Spring 2017</p>
                         <p class="text-muted">J. Brady</p>
                     </div>
-                    <div class="col-md-3" id="logos">
+                    <div class="col-sm-4 col-xs-6" id="logos">
                         <a href="https://github.com/jd-b/yt_worldtrends" class="fa fa-github-alt" id="github_link" aria-hidden="true" target="_blank"></a>
                         <a href="http://www.cs.middlebury.edu/~jbrady/" id="me_link" class="fa fa-user-circle" aria-hidden="true" target="_blank"></a>
                         <a href="mailto:jbrady@middlebury.edu" class="fa fa-envelope-o" id="mail_link" aria-hidden="true"></a>
@@ -100,6 +101,7 @@
                 </div>
             </div>
         </div>
+
 
 
         <!-- Video Modal Popup -->
@@ -117,12 +119,28 @@
         </div>
 
         <!-- Settings Popover Content -->
-        <div id="popover_content">
-            <h4>Why isn't every country selectable?</h4>
-            <p>Videos are only avaible for countries in which YouTube has launched a monetized site. Other regions may have access to YouTube, but do not have region specific content.</p>
-            <br></br>
-            <h4>Settings</h4>
-            <p>Play Video on Load<input type='checkbox' checked data-toggle='toggle'></p>
+        <div id="help-content" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h4>Why isn't every country selectable?</h4>
+                        <p>Videos are available only for countries in which YouTube has launched a monetized site. Other regions may have access to YouTube, but do not have region specific content.</p>
+                        <br>
+                        <h4>Request a feature or submit a bug</h4>
+                        <p>Check out that contact me link in the footer; I love receiving feedback. This was my first real exploration into JS, so I expect some errant behavior to be present.</p>
+                        <br>
+                        <h4>Settings</h4>
+                        <div class="row">
+                            <div class="col-xs-3">
+                                Play on load:
+                            </div>
+                            <div class="col-xs-1" id="load_box">
+                                <input type='checkbox' checked id='video_load'>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <script src="main.js"></script>

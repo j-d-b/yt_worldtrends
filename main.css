@@ -1,3 +1,28 @@
+@font-face {
+    font-family: "title"; /*a name to be used later*/
+    src: url("axis.ttf"); /*URL to font*/
+}
+
+#load_box {
+    text-align: left;
+}
+
+#world-map {
+    min-height: 327px;
+}
+
+#authors {
+    text-align: center;
+    font-style: italic;
+    font-size: 9px;
+    padding-top: 13px;
+    line-height: 4px;
+}
+
+#video-modal .modal-body {
+    padding: 0px;
+}
+
 #vid_loc {
     text-align: center;
     font-size: 16px;
@@ -33,9 +58,9 @@
 }
 
 #top_bar {
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
     font-size: 26px;
-    font-family: "futura";
+    font-family: "title";
     background-color: #C51109;
     color: white;
     font-weight: 500;
@@ -85,10 +110,7 @@
 #counter_col {
     background-color: #E62117;
     font-weight: bold;
-    text-align: center;
-    line-height: 36px;
     font-size: 18px;
-    height: 36px;
 }
 
 #left_button {
@@ -104,6 +126,7 @@
     font-size: 18px;
     letter-spacing: 4px;
     padding-right: 40px;
+    line-height: 40px;
 }
 
 #logos a:hover{
@@ -121,6 +144,7 @@
 
 #region {
     text-align: center;
+    font-family: "title";
     color: #d6d6d6;
     font-size: 20px;
     font-weight: 600;
@@ -128,26 +152,22 @@
     text-shadow: 0 1px 2px #545454;
 }
 
-#popover_content {
-    display: none;
-    width: 500px;
-}
-
 #wrap { /* from boostrap sticky footer example */
-  min-height: 100%;
-  height: auto;
-  /* Negative indent footer by its height */
-  margin: 0 auto -45px;
-  /* Pad bottom by footer height */
-  padding: 0 0 45px;
+    min-height: 100%;
+    height: auto;
+    margin: 0 auto -45px;
+    padding: 0 0 45px;
 }
 
-.popover{
-    width: 500px;
-}
-
-.modal-body {
-    padding: 0px;
+.inf-ftr-el {
+    text-align: center;
+    padding: 8px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    font-weight: 480;
+    text-decoration: none;
+    height: 100%;
+    line-height: 22px;
 }
 
 .modal-header {
@@ -180,13 +200,8 @@
 }
 
 .panel_button {
-    padding: 8px;
-    text-align: center;
-    cursor: pointer;
-    letter-spacing: 1px;
-    font-weight: 480;
-    text-decoration: none;
 }
+
 .panel_button:hover {
     background-color: #787878;
 }
@@ -195,20 +210,11 @@
     border: 0;
 }
 
-.popover-content {
-    color: black;
-}
-
 .main-element {
     box-shadow: 1px 1px 50px #cccccc;
 }
 
 .footer {
-    font-style: italic;
-    font-size: 9px;
-    padding-top: 13px;
-    line-height: 4px;
-    text-align: center;
     width: 100%;
     height: 45px;
     background-color: white;

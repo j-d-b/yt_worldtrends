@@ -1,4 +1,4 @@
-// Jacob Brady
+max_char// Jacob Brady
 // April 2017
 
 // YOUTUBE PLAYER API SETUP
@@ -12,57 +12,69 @@ const API_KEY = "AIzaSyDmMfpYRWY9v0OLpJsN-HXlzdpHUdaoOXU";
 const YT_LIGHTRED = "#E62117";
 const YT_DARKRED = "#C51109";
 const INIT_FILL_CLR = "#c1c1c1";
-const SEL_FILL_COLOR = "#969696";
+const SEL_FILL_CLR = "#909090";
+const HVR_FILL_CLR = "#a85352";
 const BG_COLOR = "#f1f1f1";
-const MAX_CHAR = 300;
-const VALID_REGIONS = ["DZ","AR","AU","AT","AZ","BH","BY","BA","BR","BG","CA","CL","CO","HR","CZ","DK","EG","EE","FI","FR","GE","DE","GH","GR","HK","HU","IS","IN","ID","IQ","IE","IL","IT","JP","JO","KZ","KE","KW","LV","LB","LY","LT","LU","MK","MY","MX","ME","MA","NP","NL","NZ","NG","NO","OM","PK","PE","PH","PL","PR","QA","RO","RU","SA","SN","RS","SG","SK","SI","ZA","KR","ES","LK","SE","CH","TW","TZ","TH","TN","TR","UG","UA","AE","UK","US","VN","YE","ZW"];
-var prev_player, full_player; // youtube player objects
+const MAP_DIV_BOT_PAD = 20; //px
+const MIN_INF_DIV_WID = 265; //px related to bs md col usage in map/infdiv
+const MIN_HDR_FTR_WID = 436; //px
+const BS_MD_COLLAPSE = 991; //px when window width is <= this, map above inf
+const VALID_REGIONS = ["DZ","AR","AU","AT","AZ","BH","BY","BE","BA","BR","BG","CA","CL","CO","HR","CZ","DK","EG","EE","FI","FR","GE","DE","GH","GR","HK","HU","IS","IN","ID","IQ","IE","IL","IT","JP","JO","KZ","KE","KW","LV","LB","LY","LT","LU","MK","MY","MX","ME","MA","NP","NL","NZ","NG","NO","OM","PK","PE","PH","PL","PT","PR","QA","RO","RU","SA","SN","RS","SG","SK","SI","ZA","KR","ES","LK","SE","CH","TW","TZ","TH","TN","TR","UG","UA","AE","GB","US","VN","YE","ZW"];
 var curr_vidlist = []; // saves the first five vid objs for the selected country
 var vidlist_index = 0; // which video of the five is currently being shown
 var curr_region; // which country is currently selected
 var expanded = false; // is vid description expanded
+var auto_play = true;
+var max_char;
 
 
 // JQUERY!
 $(document).ready(function(){
+    max_char = $(window).height() / 3;
+
+    $('#video_load').bootstrapToggle({
+        on: 'On',
+        off: 'Off',
+        size: 'mini',
+        onstyle: 'danger'
+    });
+
+    $('#video_load').change(function() {
+        if ($("#video_load").is(":checked")){
+            auto_play = true;
+        }
+        else {
+            auto_play = false;
+        }
+    });
+
     $('#me_link').tooltip({title: "about me", trigger: 'hover', delay: {show: 400, hide: 0}});
     $('#github_link').tooltip({title: "github", trigger: 'hover', delay: {show: 400, hide: 0}});
     $('#mail_link').tooltip({title: "contact", trigger: 'hover', delay: {show: 400, hide: 0}});
-    
-    $('#settings').popover({
-        html : true,
-        content: function() {
-            return $('#popover_content').html();
-        }
+
+    $('#settings').tooltip({title: "help/settings", placement: 'left', trigger: 'hover', delay: {show: 400, hide: 0}});
+
+    $('#load_box').tooltip({title: "enable/disable video autostart on region click", placement: 'right', trigger: 'hover', delay: {show: 300, hide: 0}});
+
+    $('#settings').click(function(){ // on modal open
+        $('#help-content').modal('toggle');
     });
 
     $('.expand-collapse').click(function(){
         if(!expanded){
-            $('#vid_desc').html(curr_vidlist[vidlist_index].snippet.description); // replace(/\n/g, "<br />"));
+            $('#vid_desc').html(curr_vidlist[vidlist_index].snippet.description);
             expanded = true;
             $(".expand-collapse").removeClass("fa-caret-down");
             $(".expand-collapse").addClass("fa-caret-up");
         }
         else {$
-            $('#vid_desc').html(curr_vidlist[vidlist_index].snippet.description.slice(0, MAX_CHAR) + "...");// .replace(/\n/g, "<br />"));
+            $('#vid_desc').html(curr_vidlist[vidlist_index].snippet.description.slice(0, max_char) + "...");
             expanded = false;
             $(".expand-collapse").removeClass("fa-caret-up");
             $(".expand-collapse").addClass("fa-caret-down");
         }
         $('#vid_desc').linkify({
             target: "_blank"
-        });
-    });
-
-    // from SO.com, fix to two clicks to open popover bug + close on body click
-    $(document).on('click', function (e) {
-        $('[data-toggle="popover"],[data-original-title]').each(function () {
-            //the 'is' for buttons that trigger popups
-            //the 'has' for icons within a button that triggers a popup
-            if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
-                (($(this).popover('hide').data('bs.popover')||{}).inState||{}).click = false  // fix for BS 3.3.6
-            }
-
         });
     });
 
@@ -84,13 +96,7 @@ $(document).ready(function(){
     });
 
 
-    // SETUP MAP
-    $(window).resize(function(){ // sizes the map in the bootstrap container
-        var height = $(window).height(),
-            offset = 175;
-        $('#world-map').css('height', (height - offset));
-    }).resize();
-
+    // MAP SETUP BELOW
     $('#world-map').vectorMap({
         map: 'world_mill',
         backgroundColor: BG_COLOR,
@@ -104,7 +110,8 @@ $(document).ready(function(){
                 fill: INIT_FILL_CLR,
             },
             hover: {
-                fill: YT_LIGHTRED,
+                fill: HVR_FILL_CLR,
+                "fill-opacity": 1,
                 cursor: 'pointer'
             },
             selected: {
@@ -116,7 +123,9 @@ $(document).ready(function(){
                 cursor: 'pointer'
             }
         },
-        zoomMax: 1,
+        zoomMax: 5,
+        zoomOnScroll: false,
+        panOnDrag: false,
         regionsSelectable: true,
         regionsSelectableOne: true, //add this line here
         zoomButtons : false,
@@ -137,7 +146,6 @@ $(document).ready(function(){
             }
         },
         onRegionTipShow: function(e, el, code){
-            // console.log(code);
             var valid = $.inArray(code, VALID_REGIONS);
             if (valid == -1) {
                 e.preventDefault();
@@ -145,16 +153,83 @@ $(document).ready(function(){
         }
     });
 
+    size_map();
+
     // darken the selectable countries
     var map = $('#world-map').vectorMap('get', 'mapObject');
-    map.series.regions[0].setValues(color_regions(VALID_REGIONS, SEL_FILL_COLOR));
+    map.series.regions[0].setValues(color_regions(VALID_REGIONS, SEL_FILL_CLR));
+
+    // RESPONIVE TO RESIZE
+    $(window).resize(function(){
+        var height = $(window).height();
+        var width = $(window).width();
+        var offset = 175; // from footer
+        var inf_hi = $('#info-div').height()
+
+        size_map();
+
+        max_char = $(window).height() / 3;
+
+        var inf_wid = $('#info-div').width()
+
+        if(inf_wid < MIN_INF_DIV_WID){ // 264
+            $('#counter_col').css("font-size", inf_wid / 16);
+            $('.panel_button').css("font-size", inf_wid / 19.5);
+        }
+        else {
+            $('#counter_col').css("font-size", 18);
+            $('.panel_button').css("font-size", 14);
+        }
+
+        // trying to look decent on mobile, responsively...
+        if (width < MIN_HDR_FTR_WID){
+            $('#top_bar').css("padding-left", width / 20);
+            $('#top_bar').css("font-size", width / 17.1);
+        }
+        else {
+            $('#top_bar').css("padding-left", 25); // defaults, set in .css file
+            $('#top_bar').css("font-size", 26);
+        }
+    }).resize();
 
 });
+
+// dyanmically size the map container
+function size_map(){
+    var height = $(window).height();
+    var width = $(window).width();
+    var offset = 175; // from footer
+    var inf_hi = $('#info-div').height()
+
+    if (width <= BS_MD_COLLAPSE) { // info div is below map
+        $('#info-div').css('padding-top', 0);
+        $('#map-div').css('margin-left', 0);
+        $('#world-map').css('height', (height - offset - inf_hi));
+
+        if(width <= 500) {
+            $('#world-map').css('min-height', 200);
+        }
+        else {
+            $('#world-map').css('min-height', 327);
+        }
+        $('#world-map').vectorMap('get','mapObject').updateSize();
+    }
+    else { // info and map side by side
+        $('#world-map').css('min-height', 327);
+        $('#info-div').css('padding-top', 40);
+        $('#map-div').css('margin-left', 30);
+
+        if( (height - offset) > 327){
+            $('#world-map').css('height', (height - offset));
+        }
+        $('#world-map').vectorMap('get','mapObject').updateSize();
+
+    }
+}
 
 // this might be an inelegant method of doing this, but I don't know another way
 function color_regions(regions, color_code){
     var colors = {};
-    console.log(regions.length);
     for (var i = 0; i < regions.length; i++) {
         colors[regions[i]] = color_code;
     }
@@ -196,12 +271,12 @@ function fill_info(){
     var curr_vid = curr_vidlist[vidlist_index];
     var map = $('#world-map').vectorMap('get', 'mapObject');
 
-    if (curr_vid.snippet.description.length < MAX_CHAR){
+    if (curr_vid.snippet.description.length < max_char){
         $("#vid_desc").html(curr_vid.snippet.description);
         $(".expand-collapse").addClass("hidden");
     }
     else { // over the char limit
-        $("#vid_desc").html(curr_vid.snippet.description.slice(0, MAX_CHAR) + "...");
+        $("#vid_desc").html(curr_vid.snippet.description.slice(0, max_char) + "...");
         $(".expand-collapse").removeClass("hidden");
     }
     $('#vid_desc').linkify({ target: "_blank" }); // autohyperlink
@@ -231,7 +306,9 @@ function init_player(div_id1, div_id2){
     prev_player = new YT.Player(div_id1, {
         events: {
             onReady: function(e){
-                e.target.playVideo();
+                if(auto_play){
+                    e.target.playVideo();
+                }
             }
         }
     });
@@ -250,14 +327,3 @@ function switch_players(switch_from, switch_to){
         switch_from.stopVideo();
     }
 }
-
-// NOT YET WORKING; CAN GET ADDITIONAL STATS
-// function req_stats(vid_id) {
-//     var url = "https://www.googleapis.com/youtube/v3/videos?part=statistics&id=" + vid_id + "&key=" + API_KEY;
-//     var req_js_obj;
-//
-//     $.get(url, function(data) {
-//         req_js_obj = data;
-//     });
-//
-// }
