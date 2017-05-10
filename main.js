@@ -127,7 +127,7 @@ $(document).ready(function(){
         zoomOnScroll: false,
         panOnDrag: false,
         regionsSelectable: true,
-        regionsSelectableOne: true, //add this line here
+        regionsSelectableOne: true,
         zoomButtons : false,
         onRegionClick: function (event, region_code) {
             var valid = $.inArray(region_code, VALID_REGIONS);
@@ -281,7 +281,7 @@ function fill_info(){
     $('#vid_desc').linkify({ target: "_blank" }); // autohyperlink
 
     $("#prev_title").html(curr_vid.snippet.title);
-    $("#vid_viewers").html(""); // current just clears opening text
+    $("#vid_viewers").html(""); // current just clears opening text (placeholder)
     $("#vid_date").html(curr_vid.snippet.publishedAt.slice(0, 10));
     $("#counter_col").html("# " + (vidlist_index + 1).toString());
     $("#vid_author").html("by " + curr_vid.snippet.channelTitle);
