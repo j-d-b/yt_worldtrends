@@ -1,13 +1,10 @@
-# yt_worldtrends
-http://jdbrady.info/yt_worldtrends/
-
-## About
+# YT Worldtrends
 YT Worldtrends is a single-page web app facilitating the exploration of trending video content across the globe.
 
-Worldtrends was built as my CS701 senior project at Middlebury College, and was my first foray in web development. 
+http://jdbrady.info/yt_worldtrends/
 
-The functionality of the site straightforward; select a country to explore
-top trending videos sourced from youtube for that region; dynamically updates content. Fairly interesting to 
-adventurously click around the world map. Try it out! There's some illuminating content out there :)
+## Preface 
+Worldtrends was built in early 2017 as my CS701 senior project at Middlebury College. It was my first foray in web development. I didn't know anything when I started this, and the code is a true mess: a single JS file, a strange mix of ES6 and older syntax, and no build process or package manager... etc. I've archived this repo and left it up here because *the project and app itself are interesting* and *it's fun to look back on*.
 
-Maybe I can clean up the code some day, because the app is kind of fun...
+## About/Usage
+The functionality of the site straightforward; select a country to explore the top trending videos sourced from youtube for that region. Content is updated dynamically. It's surprisingly interesting to adventurously click around the world map. Try it out! There's some illuminating content out there :)
